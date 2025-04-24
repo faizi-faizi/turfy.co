@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { getTurf } from '../services/TurfApi'
+import { getTurf } from '../services/turfApi'
 import { Link } from 'react-router-dom'
 
 function Homepage() {
