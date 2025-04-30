@@ -23,7 +23,7 @@ dbConnection()
 app.use(express.json())  
 const allowedOrigins = [
     "http://localhost:5173",
-    "https://turfy-co-shxo.vercel.app"
+    "https://turfy-co-777.vercel.app"
   ]
   
   app.use(cors({
