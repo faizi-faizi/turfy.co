@@ -1,14 +1,20 @@
 import axios from "axios";
 
 export const userInstance = axios.create({
-    baseURL:import.meta.env.VITE_BASE_URL
-})
+  baseURL: import.meta.env.VITE_BASE_URL,
+});
 
+userInstance.interceptors.request.use((config) => {
+  let token;
+  if (window.location.pathname.includes("/manager")) {
+    token = localStorage.getItem("managerToken");
+  } else {
+    token = localStorage.getItem("token");
+  }
 
-userInstance.interceptors.request.use((request) => {
-    const token = localStorage.getItem("token") || localStorage.getItem("manager-token");
-    if (token) {
-        request.headers.Authorization = `Bearer ${token}`;
-    }
-    return request;
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
+
+  return config;
 });

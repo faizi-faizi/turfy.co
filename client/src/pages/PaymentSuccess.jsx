@@ -2,6 +2,7 @@
 import React, { useEffect } from "react";
 import { useSearchParams, useNavigate } from "react-router-dom";
 import { savePaymentDetails } from "../services/bookingApi";
+import { toast } from "sonner";
 
 const PaymentSuccess = () => {
   const [searchParams] = useSearchParams();
@@ -15,6 +16,7 @@ const PaymentSuccess = () => {
       savePaymentDetails(sessionId)
         .then((res) => {
           console.log("Payment saved:", res.data);
+          toast.success("Booking successful!");
         })
         .catch((err) => {
           console.error("Payment saving failed:", err);

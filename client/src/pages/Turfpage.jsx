@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
-import { getTurfById } from '../services/TurfApi'
+
 import { toast } from 'sonner'
 import { bookTurf } from '../services/bookingApi'
+import { getTurfById } from '../services/turfApi'
 
 function Turfpage() {
     const { id } = useParams()
@@ -14,7 +15,7 @@ function Turfpage() {
     useEffect(() => {
         getTurfById(id)
             .then((res) => {
-                setTurf(res?.data)
+                setTurf(res?.data?.turf)
             })
             .catch((err) => {
                 console.error(err)
@@ -46,7 +47,6 @@ function Turfpage() {
         try {
             const response = await bookTurf(bookingData)
 
-            toast.success(response?.data?.message)
             navigate(`/bookingpage/${response.data.bookingId}`)
 
         } catch (error) {

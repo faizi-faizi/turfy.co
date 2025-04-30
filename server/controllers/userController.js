@@ -48,7 +48,7 @@ const login = async(req,res)=>{
         const userObject = userExist.toObject()
         delete userObject.password
 
-        const token = createToken(userExist._id)
+        const token = createToken(userExist._id, userExist.role)
 
         return res.status(200).json({message:"Login Successfull", user: userObject, token})
 

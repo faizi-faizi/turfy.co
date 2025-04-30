@@ -1,16 +1,25 @@
 import React, { useEffect, useState } from 'react'
 import { getTurf } from '../services/turfApi'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
 function Homepage() {
     const [turfs, setTurf] = useState([])
     const [currentSlide, setCurrentSlide] = useState(0)
+    const navigate = useNavigate()
 
     const slideImages = [
         "https://www.shutterstock.com/image-photo/green-grass-field-background-football-600nw-2330372505.jpg",
         "https://media.hudle.in/venues/c1c68681-a410-4905-8411-3275ee943221/photo/076aa6cbcc27781e781a11702a3a16ebc992af75",
         "https://media.istockphoto.com/id/520999573/photo/indoor-soccer-football-field.jpg?s=612x612&w=0&k=20&c=X2PinGm51YPcqCAFCqDh7GvJxoG2WnJ19aadfRYk2dI="
     ]
+
+    useEffect(() => {
+        const token = localStorage.getItem("token");
+        if (!token) {
+            navigate("/login");
+        }
+    }, [navigate]);
+
 
     useEffect(() => {
         getTurf()

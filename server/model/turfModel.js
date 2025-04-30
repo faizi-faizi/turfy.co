@@ -24,7 +24,7 @@ const turfSchema = new mongoose.Schema({
         type: Number,
         required: true
     },
-    slot: {
+    slots: {
         type: [String]
     },
     managerId: {

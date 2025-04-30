@@ -1,5 +1,5 @@
 const bookingModel = require('../model/bookingModel')
-const bcrypt = require ('bcrypt')
+const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 const userModel = require('../model/userModel')
 
@@ -57,50 +57,64 @@ const createManager = async (req, res) => {
 };
 
 
-const loginManger = async (req,res)=>{
-    try {
-        const {email,password}= req.body
-
-        if(!email || !password){
-            return res.status(400).json({message:"All fields are required"})
-        }
-        const user = await userModel.findOne({email, role:'manager'})
-        if(!user){
-            return res.status(404).json({message:"manager not found"})
-        }
-        const passwordMatch = await bcrypt.compare(password, user.password)
-        if(!passwordMatch){
-            return res.status(401).json({message:"Invalid credentials"})
-        }
-
-        const token = jwt.sign({id:user._id,role:'manager'}, process.env.JWT_SECRET_KEY)
-
-        res.status(200).json({message:"Manager login successful",token,user})
-
-
-    } catch (error) {
-        console.log(error)
-        res.status(500).json({ message: "Internal server error" })
-    }
-}
-
 
 const turfModel = require('../model/turfModel');
 
 const getManagerData = async (req, res) => {
     try {
-      const managerId = req.user._id;
-  
-      const bookings = await bookingModel.find({ managerId }).populate('userId').populate('turfId');
-      const turfs = await turfModel.find({ manager: managerId });
-  
-      res.status(200).json({ bookings, turfs });
+        // Ensure the user object is available
+        if (!req.user || !req.user._id) {
+            return res.status(401).json({ message: "Unauthorized: User data missing" });
+        }
+
+        const managerId = req.user._id;
+        console.log("✅ Manager ID:", managerId);
+
+        // Fetch turfs added by this manager
+        const turfs = await turfModel.find({ managerId });
+        if (!turfs.length) {
+            console.log("⚠️ No turfs found for this manager.");
+        } else {
+            console.log(`✅ Found ${turfs.length} turfs`);
+        }
+
+        // Extract turf IDs to fetch bookings
+        const turfIds = turfs.map(turf => turf._id);
+        console.log("Manager's Turf IDs:", turfIds.map(id => id.toString()));
+
+        // Get bookings related to the manager's turfs
+
+        const bookings = await bookingModel
+            .find({ turfId: { $in: turfIds } })
+            .populate('userId', 'name email')  // You can choose what fields you want to populate
+            .populate('turfId', 'name location')
+            .populate('managerId', 'name email')
+            .populate('paymentId', 'amount status');
+
+        console.log(`✅ Found ${bookings.length} bookings`);
+
+        // Calculate total revenue from bookings
+        const totalRevenue = bookings.reduce((sum, booking) => sum + (booking.price || 0), 0);
+
+        // Filter bookings from last 7 days
+        const sevenDaysAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);
+        const newBookings = bookings.filter(booking => new Date(booking.createdAt) >= sevenDaysAgo);
+
+        // Final response
+        return res.status(200).json({
+            managerId,
+            turfs,
+            bookings,
+            totalRevenue,
+            newBookingCount: newBookings.length,
+            newBookings
+        });
+
     } catch (error) {
-      console.error(error);
-      res.status(500).json({ message: "Internal server error" });
+        console.error("❌ Error in getManagerData:", error);
+        return res.status(500).json({ message: "Internal Server Error" });
     }
-  };
-    
+};
 
 
 
@@ -108,4 +122,5 @@ const getManagerData = async (req, res) => {
 
 
 
-module.exports = { createManager,loginManger, getManagerData }
+
+module.exports = { createManager, getManagerData }

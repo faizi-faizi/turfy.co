@@ -21,9 +21,15 @@ app.get('/',(req,res)=>{
 dbConnection()
 
 app.use(express.json())  
-app.use(cors({
-    origin: "https://turfy-co.vercel.app/"
-}))
+const allowedOrigins = [
+    "http://localhost:5173",
+    "https://turfy-co.vercel.app"
+  ]
+  
+  app.use(cors({
+    origin: allowedOrigins,
+    credentials: true
+  }))
 
 //routes
 app.use('/user', userRoutes)

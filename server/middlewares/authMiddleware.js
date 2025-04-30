@@ -28,7 +28,10 @@ module.exports = async (req, res, next) => {
         }
 
         // Attach the full user object to the request
-        req.user = user;
+        req.user = {
+            ...user.toObject()
+        };
+        
 
         next();
     } catch (error) {

@@ -16,11 +16,13 @@ function Login({ role = "user" }) {
         userLogin(values, role).then((res) => {
 
             if(role == "manager"){
-            localStorage.setItem("manager-token", res?.data?.token);
+            localStorage.removeItem("token");
+            localStorage.setItem("managerToken", res?.data?.token);
             toast.success(res?.data?.message);
             navigate("/manager/dashboard")
 
             } else {
+                localStorage.removeItem("managerToken");
                 localStorage.setItem("token", res?.data?.token);
                 localStorage.setItem("user", JSON.stringify({
                     _id: res?.data?.user._id,
