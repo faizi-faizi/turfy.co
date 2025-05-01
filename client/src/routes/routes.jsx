@@ -16,6 +16,9 @@ import MyBookings from "../pages/MyBookings";
 import BookingDetails from "../pages/BookingDetails";
 import EditBooking from "../pages/EditBooking";
 import TurfBookings from "../pages/manager/TurfBookings";
+import ProfilePage from "../pages/ProfilePage";
+import ProfileUpdate from "../pages/ProfileUpdate";
+import ChangePasswordPage from "../pages/ChangePasswordPage";
 
 export const routes = createBrowserRouter([
     {
@@ -53,6 +56,18 @@ export const routes = createBrowserRouter([
             {
                 path:"booking/:bookingId/edit",
                 element: <EditBooking/>
+            },
+            {
+                path:"profile",
+                element: <ProfilePage/>
+            },
+            {
+                path:"/profile/edit",
+                element: <ProfileUpdate/>
+            },
+            {
+                path: "/profile/change-password",
+                element: <ChangePasswordPage/>
             }
 
            

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { getBookingById, makePayment } from "../services/bookingApi"; // 👈 create this API if not made
 import { loadStripe } from '@stripe/stripe-js';
+import { FaCog } from "react-icons/fa";
 
 const stripePromise = loadStripe(import.meta.env.VITE_PUBLISHED_KEY_STRIPE)
 
@@ -51,7 +52,7 @@ function BookingPage() {
   if (!booking) {
     return (
       <div className="flex justify-center items-center min-h-screen">
-        <span className="loading loading-spinner loading-lg"></span>
+        <FaCog className="animate-spin text-4xl text-gray-700" />
       </div>
     );
   }

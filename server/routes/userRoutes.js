@@ -1,4 +1,4 @@
-const { register, login, profile, updateUser, deleteUser } = require('../controllers/userController')
+const { register, login, profile, updateUser, deleteUser, changePassword } = require('../controllers/userController')
 const authMiddleware = require('../middlewares/authMiddleware')
 
 const userRoutes = require('express').Router()
@@ -8,6 +8,7 @@ userRoutes.post('/login', login)
 userRoutes.get('/profile',authMiddleware,profile)
 userRoutes.patch("/update",authMiddleware,updateUser)
 userRoutes.delete("/delete-user/:userId", authMiddleware, deleteUser)
+userRoutes.put("/change-password",authMiddleware,changePassword)
 
 module.exports = userRoutes
 

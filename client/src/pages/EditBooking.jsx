@@ -4,6 +4,7 @@ import { toast } from 'sonner';
 import {  getBookingByIds, updateBooking } from '../services/bookingApi';
 import { getTurfById } from '../services/turfApi';
 import { userInstance } from '../axios/axiosInstance';
+import { FaCog } from 'react-icons/fa';
 
 const EditBooking = () => {
     const { bookingId } = useParams();
@@ -118,7 +119,13 @@ const EditBooking = () => {
         }
     };
 
-    if (loading) return <div className="text-center py-10">Loading...</div>;
+    if (loading) {
+        return(
+            <div className="flex justify-center items-center min-h-screen">
+                    <FaCog className="animate-spin text-4xl text-gray-700" />
+                  </div>
+        )
+    }
     if (!booking) return <div className="text-center text-red-500">Booking not found</div>;
 
     return (

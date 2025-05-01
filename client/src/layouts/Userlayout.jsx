@@ -32,6 +32,8 @@ function Userlayout() {
         const isManager = location.pathname.startsWith("/manager");
         navigate(isManager ? "/manager/login" : "/login");
     };
+
+
     const handleSearchChange = async (e) => {
         const query = e.target.value;
         setSearchQuery(query);
@@ -41,7 +43,7 @@ function Userlayout() {
           setShowDropdown(false);
           return;
         }
-    
+        
         try {
           const res = await userInstance.get(`/turfs/search?query=${query}`);
           setSearchResults(res.data);
@@ -53,6 +55,9 @@ function Userlayout() {
         }
       };
     
+      
+
+
       const handleResultClick = (id) => {
         setSearchQuery('');
         setSearchResults([]);
@@ -123,7 +128,7 @@ function Userlayout() {
                                 )}
 
                                 <li>
-                                    <a className="justify-between">
+                                    <a  onClick={() => navigate("/profile")} className="justify-between">
                                         Profile
                                         <span className="badge">New</span>
                                     </a>
@@ -138,6 +143,7 @@ function Userlayout() {
             <div className='flex-1 bg-white'>
                 <Outlet />
             </div>
+
 {/* Computer View */}
             
 <footer className="hidden md:flex footer bg-neutral-content text-black text-base-content p-10">

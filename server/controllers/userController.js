@@ -61,7 +61,7 @@ const login = async(req,res)=>{
 
 const profile = async(req,res)=>{
     try {
-        const userId = req.user.id;
+        const userId = req.user._id;
         const user = await userModel.findById(userId).select("-password")
         res.status(200).json(user)
     } catch (error) {
@@ -92,8 +92,32 @@ const deleteUser = async (req,res)=>{
     }
 }
 
+const changePassword = async (req,res)=>{
+    try {
+        const {oldPassword, newPassword} = req.body
+        const userId = req.user._id
+        const user = await userModel.findById(userId)
+        if(!user){
+            return res.status(400).json({error:"user not found"})
+        }
+        const passwordMatch = await bcrypt.compare(oldPassword,user.password)
+        if(!passwordMatch){
+            return res.status(400).json({error:"not a valid password"})
+        }
+        const salt =  await bcrypt.genSalt(10)
+        const hashedPassword = await bcrypt.hash(newPassword,salt)
+
+        const updatedUser = await userModel.findByIdAndUpdate(userId,{password:hashedPassword}, {new:true})
+        res.status(200).json({message:"Password upated",updatedUser})
+
+    } catch (error) {
+        console.log(error);
+        res.status(error.status || 500).json(error.message || "Internal server error")
+    }
+}
+
 
 
 module.exports = {
-    register, login, profile, updateUser,deleteUser
+    register, login, profile, updateUser,deleteUser, changePassword
 }

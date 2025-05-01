@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'sonner';
 import { cancelBooking, getBookingById } from '../services/bookingApi';
+import { FaCog } from 'react-icons/fa';
 
 const BookingDetails = () => {
     const { bookingId } = useParams();
@@ -39,7 +40,13 @@ const BookingDetails = () => {
         }
     }
 
-    if (loading) return <div className="text-center py-10">Loading...</div>;
+    if (loading) {
+        return (
+            <div className="flex justify-center items-center min-h-screen">
+                    <FaCog className="animate-spin text-4xl text-gray-700" />
+                  </div>
+        );
+    }
     if (!booking) return <div className="text-center text-red-500">Booking not found</div>;
 
     return (

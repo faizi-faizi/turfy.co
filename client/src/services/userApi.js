@@ -9,3 +9,16 @@ export const userLogin = (data, role) =>{
 export const userSignup = (data)=>{
     return userInstance.post("/user/register",data)
 }
+
+export const getProfile = ()=> {
+    return userInstance.get('/user/profile');
+}
+
+export const changePasswordApi = (oldPassword, newPassword) => {
+    return userInstance.put("/user/change-password",
+        {
+          oldPassword,
+          newPassword,
+        });
+}
+
