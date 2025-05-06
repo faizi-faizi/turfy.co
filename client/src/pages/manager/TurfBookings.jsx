@@ -10,7 +10,7 @@ const TurfBookings = () => {
 
   useEffect(() => {
     if (managerId) {
-      fetchBookings(managerId); // ✅ Use managerId from URL
+      fetchBookings(managerId); // managerId from URL
     } else {
       const storedManagerRaw = localStorage.getItem("managerData");
       const storedManager = storedManagerRaw ? JSON.parse(storedManagerRaw) : null;
@@ -40,7 +40,7 @@ const TurfBookings = () => {
     try {
       await updateBookingStatus(bookingId, { status: newStatus });
       toast.success(`Booking status updated to ${newStatus}`);
-      fetchBookings(managerId); // 🔁 Refresh bookings list
+      fetchBookings(managerId); // Refresh bookings list
     } catch (err) {
       console.error("Failed to update status:", err);
       toast.error("Failed to update booking status");

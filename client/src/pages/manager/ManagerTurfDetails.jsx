@@ -47,7 +47,12 @@ const ManagerTurfDetails = () => {
         <ul className="text-stone-500 list-disc pl-6">
           {bookings.map((b) => (
             <li key={b._id}>
-              {b.userId?.name || b.userId?.email || "Unknown"} - Price: ₹{b.price}
+              {b.userId?.name || b.userId?.email || "Unknown"} <br/> {b.status} - Date: {b.date.slice(0, 10)} - Slot: {b.slot}
+              <br/>
+              <span className="text-sm text-stone-400">Price: ₹ {b.price}</span>
+              <br/>
+              <span className="text-sm text-stone-400">Booking ID: {b._id}</span>
+               
             </li>
           ))}
         </ul>
