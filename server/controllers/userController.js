@@ -34,9 +34,9 @@ const login = async(req,res)=>{
         if(!email || !password){
             return res.status(400).json({message:"All fields are required"})
         }
-        const userExist = await userModel.findOne({ email, role })
+        const userExist = await userModel.findOne({ email })
         if (!userExist){
-            return res.status(400).json({error:"user not found"})
+            return res.status(error.status || 400).json({error:"user not found"})
         }
         const passwordMatch = await bcrypt.compare(password,userExist.password)
         console.log(passwordMatch, "===pMatch");
