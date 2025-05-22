@@ -49,23 +49,23 @@ function Homepage() {
                 ))}
             </div>
 
-            {/* Turf Cards */}
-            <div className='flex flex-wrap gap-6 p-4 items-stretch'>
-                {turfs.map((turf) => (
-                    <Link to={`turfdetails/${turf._id}`} key={turf._id}>
-                        <div className="card w-80 bg-neutral-content shadow-xl hover:scale-105 text-black transition-all h-full">
-                            <figure className="h-48 overflow-hidden">
-                                <img src={turf.images} alt={turf.name} className="w-full h-full object-cover" />
-                            </figure>
-                            <div className="card-body">
-                                <h2 className="card-title">{turf.name}</h2>
-                                <p>{turf.location.city}</p>
-                                <p>Price: ₹{turf.price}/-</p>
-                            </div>
-                        </div>
-                    </Link>
-                ))}
+           {/* Turf Cards */}
+<div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 p-4">
+    {turfs.map((turf) => (
+        <Link to={`turfdetails/${turf._id}`} key={turf._id}>
+            <div className="card bg-neutral-content shadow-xl hover:scale-105 text-black transition-all h-full">
+                <figure className="h-48 overflow-hidden">
+                    <img src={turf.images} alt={turf.name} className="w-full h-full object-cover" />
+                </figure>
+                <div className="card-body">
+                    <h2 className="card-title">{turf.name}</h2>
+                    <p>{turf.location.city}</p>
+                    <p>Price: ₹{turf.price}/-</p>
+                </div>
             </div>
+        </Link>
+    ))}
+</div>
         </div>
     )
 }

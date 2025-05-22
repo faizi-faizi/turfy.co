@@ -146,7 +146,7 @@ function Userlayout() {
 
 {/* Computer View */}
             
-<footer className="hidden md:flex footer bg-neutral-content text-black text-base-content p-10">
+<footer className="hidden md:flex footer bg-neutral-content text-black text-base-content p-10 mt-5">
             <nav className='flex-1'>
                     <h1 className="text-2xl font-alef font-bold">turfy.co</h1>
                     <span className='pr-20 text-stone-500'>We’ve got turfs that match your game and keep you coming back. From football to cricket.</span>
